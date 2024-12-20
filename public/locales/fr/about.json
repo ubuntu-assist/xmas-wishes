@@ -1,0 +1,53 @@
+{
+  "aboutUs": {
+    "title": "À Propos de NND Services",
+    "sections": {
+      "ourJourney": {
+        "title": "Notre Parcours",
+        "subtitle": "Notre Histoire",
+        "content": "NND SERVICES a été fondée avec une mission simple : faciliter la vie de nos clients grâce à un service fiable et efficace. Nous comprenons les défis liés au déménagement, à la livraison d’articles importants et au désencombrement, c’est pourquoi nous offrons une gamme de solutions adaptées à vos besoins spécifiques."
+      },
+      "ourValues": {
+        "title": "Ce Qui Nous Motive",
+        "subtitle": "Nos Valeurs",
+        "values": {
+          "integrity": "Nous menons nos activités avec une honnêteté et une transparence inébranlables.",
+          "professionalism": "Nous maintenons les normes les plus élevées dans tous nos services.",
+          "community": "Nous nous engageons à avoir un impact positif durable."
+        }
+      },
+      "ourServices": {
+        "title": "Ce Que Nous Offrons",
+        "subtitle": "Nos Services",
+        "services": {
+          "moving": "Des solutions de déménagement professionnelles et efficaces.",
+          "delivery": "Des services de livraison fiables et ponctuels.",
+          "junkRemoval": "Un nettoyage et une élimination responsables.",
+          "donationProgram": "Une initiative de redistribution axée sur la communauté."
+        }
+      },
+      "commitmentToCommunity": {
+        "title": "Notre Engagement Envers la Communauté",
+        "content": "Redonner est au cœur de ce que nous faisons. Grâce à notre service de dons, nous contribuons à réduire les déchets en redistribuant des articles légèrement usagés à des familles et organisations dans le besoin. Cette initiative soutient non seulement ceux qui peuvent bénéficier de vos dons, mais contribue également à une communauté plus durable et bienveillante."
+      },
+      "whyChooseUs": {
+        "title": "Pourquoi Nous Choisir ?",
+        "content": "Choisir NND SERVICES signifie choisir un partenaire qui valorise votre temps, vos biens et votre confiance. Avec une équipe de professionnels expérimentés, un engagement envers l’excellence et un fort accent sur le soin des clients, nous nous efforçons de dépasser vos attentes avec chaque service.",
+        "stats": {
+          "satisfiedCustomers": {
+            "value": "15K+",
+            "label": "Clients Satisfaits"
+          },
+          "satisfactionRate": {
+            "value": "99%",
+            "label": "Taux de Satisfaction"
+          },
+          "support": {
+            "value": "24/7",
+            "label": "Support Client"
+          }
+        }
+      }
+    }
+  }
+}

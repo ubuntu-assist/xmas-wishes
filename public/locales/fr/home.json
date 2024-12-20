@@ -1,0 +1,19 @@
+{
+  "hero": {
+    "tagline": "Solutions Professionnelles de Déménagement",
+    "heading": {
+      "primary": "L'Excellence en Déménagement",
+      "secondary": "Redéfinie"
+    },
+    "description": "Découvrez des déménagements fluides avec nos services premium. Nous combinons des solutions logistiques innovantes à des pratiques durables, garantissant que vos biens sont manipulés avec le plus grand soin tout en ayant un impact positif grâce à notre programme de dons communautaires.",
+    "cta": {
+      "primary": "Commencer",
+      "secondary": "Regardez Notre Processus"
+    },
+    "stats": {
+      "successfulMoves": "Déménagements Réussis",
+      "satisfactionRate": "Taux de Satisfaction"
+    },
+    "scrollHint": "Faites défiler pour explorer"
+  }
+}

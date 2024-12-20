@@ -1,0 +1,53 @@
+{
+  "aboutUs": {
+    "title": "About NND Services",
+    "sections": {
+      "ourJourney": {
+        "title": "Our Journey",
+        "subtitle": "Our Story",
+        "content": "NND SERVICES was founded with a simple mission: to make life easier for our customers through reliable and efficient service. We understand the challenges of moving, delivering important items, and clearing out clutter, which is why we offer a range of solutions designed to meet your specific needs."
+      },
+      "ourValues": {
+        "title": "What Drives Us",
+        "subtitle": "Our Values",
+        "values": {
+          "integrity": "We conduct our business with unwavering honesty and transparency.",
+          "professionalism": "We maintain the highest standards in all our services.",
+          "community": "We're committed to making a lasting positive impact."
+        }
+      },
+      "ourServices": {
+        "title": "What We Offer",
+        "subtitle": "Our Services",
+        "services": {
+          "moving": "Professional and efficient relocation solutions.",
+          "delivery": "Reliable and timely delivery services.",
+          "junkRemoval": "Responsible disposal and cleaning services.",
+          "donationProgram": "Community-focused redistribution initiative."
+        }
+      },
+      "commitmentToCommunity": {
+        "title": "Our Commitment to the Community",
+        "content": "Giving back is at the heart of what we do. Through our donation service, we help reduce waste by redistributing gently used items to families and organizations in need. This initiative not only supports those who could benefit from your donations but also contributes to a more sustainable and caring community."
+      },
+      "whyChooseUs": {
+        "title": "Why Choose Us?",
+        "content": "Choosing NND SERVICES means choosing a partner who values your time, your belongings, and your trust. With a team of experienced professionals, a commitment to excellence, and a strong focus on customer care, we strive to exceed your expectations with every service.",
+        "stats": {
+          "satisfiedCustomers": {
+            "value": "15K+",
+            "label": "Satisfied Customers"
+          },
+          "satisfactionRate": {
+            "value": "99%",
+            "label": "Satisfaction Rate"
+          },
+          "support": {
+            "value": "24/7",
+            "label": "Customer Support"
+          }
+        }
+      }
+    }
+  }
+}

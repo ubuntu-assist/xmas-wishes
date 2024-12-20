@@ -1,0 +1,23 @@
+/* TransactionLoader.css */
+.transaction-loader {
+  height: 16rem;
+  width: 18rem;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.transaction-loader-text {
+  font-weight: 600;
+  font-size: 1.25rem; /* Equivalent to fs-4 */
+  margin-bottom: 1rem; /* Equivalent to mb-3 */
+}
+
+.hash-loader {
+  display: block;
+  margin: 0 auto;
+  border-color: white;
+}

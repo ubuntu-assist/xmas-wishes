@@ -1,0 +1,19 @@
+{
+  "hero": {
+    "tagline": "Professional Moving Solutions",
+    "heading": {
+      "primary": "Moving Excellence",
+      "secondary": "Redefined"
+    },
+    "description": "Experience seamless relocations with our premium moving services. We combine innovative logistics with sustainable practices, ensuring your belongings are handled with the utmost care while making a positive impact through our community donation program.",
+    "cta": {
+      "primary": "Get Started",
+      "secondary": "Watch Our Process"
+    },
+    "stats": {
+      "successfulMoves": "Successful Moves",
+      "satisfactionRate": "Satisfaction Rate"
+    },
+    "scrollHint": "Scroll to explore"
+  }
+}
