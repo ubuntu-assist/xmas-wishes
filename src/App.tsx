@@ -1,6 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
 import SharedLayout from '@/components/SharedLayout'
-import { AboutPage, ContactPage, DonatePage, Home, NotFoundPage } from '@/pages'
+import {
+  AboutPage,
+  ContactPage,
+  DeliveryQuotePage,
+  DonatePage,
+  Home,
+  NotFoundPage,
+} from '@/pages'
 import ScrollToTop from './components/ScrollToTop'
 
 function App() {
@@ -13,6 +20,7 @@ function App() {
           <Route path='about' element={<AboutPage />} />
           <Route path='contact' element={<ContactPage />} />
           <Route path='donate' element={<DonatePage />} />
+          <Route path='delivery-quote' element={<DeliveryQuotePage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>

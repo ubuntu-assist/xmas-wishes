@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion'
 import { Truck, Package, Trash2, Gift, ArrowRight, Check } from 'lucide-react'
+import { useNavigate } from 'react-router'
 
 const ServicesSection = () => {
+  const navigate = useNavigate()
+
   const services = [
     {
       icon: Truck,
@@ -135,6 +138,7 @@ const ServicesSection = () => {
 
                 <motion.button
                   whileHover={{ x: 5 }}
+                  onClick={() => navigate('/delivery-quote')}
                   className='mt-10 flex items-center space-x-2 text-[#203F6C] font-semibold text-lg group/button'
                 >
                   <span>Get a Free Quote</span>
