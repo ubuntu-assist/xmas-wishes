@@ -8,17 +8,22 @@ import {
   GiftIcon,
   User,
 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PhoneInput } from '@/components/PhoneInput'
+import { isValidPhoneNumber } from 'react-phone-number-input'
 
 // Validation schema using Zod
 const donationSchema = z.object({
   // Personal Information
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  telephone: z
+  phone: z
     .string()
-    .regex(/^\+?[\d\s-]{10,}$/, 'Please enter a valid phone number'),
+    .min(1, 'Phone number is required')
+    .refine((value) => value && isValidPhoneNumber(value), {
+      message: 'Invalid phone number',
+    }),
   email: z.string().email('Please enter a valid email address'),
 
   // Pickup Details
@@ -72,6 +77,7 @@ const DonatePage = () => {
   const [showTerms, setShowTerms] = useState(false)
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -81,7 +87,7 @@ const DonatePage = () => {
     defaultValues: {
       // Personal Information
       name: '',
-      telephone: '',
+      phone: '',
       email: '',
 
       // Pickup Details
@@ -263,11 +269,19 @@ const DonatePage = () => {
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Telephone
                 </label>
-                <input
-                  {...register('telephone')}
-                  className='w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F4B714] focus:border-[#F4B714] transition-all duration-200'
+                <Controller
+                  name='phone'
+                  control={control}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      id='phone'
+                      placeholder='Enter a phone number'
+                      className='w-full border rounded-lg py-1'
+                    />
+                  )}
                 />
-                <ErrorMessage message={errors.telephone?.message} />
+                <ErrorMessage message={errors.phone?.message} />
               </div>
               <div className='sm:col-span-2'>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>

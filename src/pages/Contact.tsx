@@ -14,18 +14,22 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import Community from '@/components/Community'
+import { isValidPhoneNumber } from 'react-phone-number-input'
+import { PhoneInput } from '@/components/PhoneInput'
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
   phone: z
     .string()
-    .regex(/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number')
-    .optional(),
+    .min(1, 'Phone number is required')
+    .refine((value) => value && isValidPhoneNumber(value), {
+      message: 'Invalid phone number',
+    }),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
   subject: z.string().min(3, 'Subject must be at least 3 characters'),
   message: z
     .string()
@@ -46,6 +50,7 @@ const ContactPage: React.FC = () => {
   const [submitSuccess, setSubmitSuccess] = React.useState<boolean>(false)
 
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -224,43 +229,47 @@ const ContactPage: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <div className='grid sm:grid-cols-2 gap-6'>
-                    <div className='space-y-2'>
-                      <label className='text-sm font-medium text-[#203F6C]'>
-                        Phone
-                      </label>
-                      <Input
-                        type='tel'
-                        {...register('phone')}
-                        placeholder='Your phone'
-                        className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
-                          errors.phone ? 'border-[#D7262F]' : ''
-                        }`}
-                      />
-                      {errors.phone && (
-                        <p className='text-sm text-[#D7262F]'>
-                          {errors.phone.message}
-                        </p>
+
+                  <div className='space-y-2'>
+                    <label className='text-sm font-medium text-[#203F6C]'>
+                      Phone
+                    </label>
+                    <Controller
+                      name='phone'
+                      control={control}
+                      render={({ field }) => (
+                        <PhoneInput
+                          {...field}
+                          id='phone'
+                          placeholder='Enter a phone number'
+                          className='w-full border rounded-lg'
+                        />
                       )}
-                    </div>
-                    <div className='space-y-2'>
-                      <label className='text-sm font-medium text-[#203F6C]'>
-                        Subject
-                      </label>
-                      <Input
-                        {...register('subject')}
-                        placeholder='How can we help?'
-                        className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
-                          errors.subject ? 'border-[#D7262F]' : ''
-                        }`}
-                      />
-                      {errors.subject && (
-                        <p className='text-sm text-[#D7262F]'>
-                          {errors.subject.message}
-                        </p>
-                      )}
-                    </div>
+                    />
+                    {errors.phone && (
+                      <p className='text-sm text-[#D7262F]'>
+                        {errors.phone.message}
+                      </p>
+                    )}
                   </div>
+                  <div className='space-y-2'>
+                    <label className='text-sm font-medium text-[#203F6C]'>
+                      Subject
+                    </label>
+                    <Input
+                      {...register('subject')}
+                      placeholder='How can we help?'
+                      className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
+                        errors.subject ? 'border-[#D7262F]' : ''
+                      }`}
+                    />
+                    {errors.subject && (
+                      <p className='text-sm text-[#D7262F]'>
+                        {errors.subject.message}
+                      </p>
+                    )}
+                  </div>
+
                   <div className='space-y-2'>
                     <label className='text-sm font-medium text-[#203F6C]'>
                       Message
