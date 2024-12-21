@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Globe, ChevronDown } from 'lucide-react'
+import {
+  Menu,
+  X,
+  Globe,
+  ChevronDown,
+  Home,
+  Heart,
+  Phone,
+  Star,
+} from 'lucide-react'
 import { Link } from 'react-router'
 import logo from '@/assets/images/logo.png'
 import { useTranslation } from 'react-i18next'
@@ -44,17 +53,17 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       <motion.button
         onClick={() => setIsLangOpen(!isLangOpen)}
         className={`flex items-center space-x-1 px-3 py-2 rounded-full 
-        ${isMobile ? 'w-full justify-center bg-white/10' : 'hover:bg-white/10'} 
+        ${isMobile ? 'w-full justify-center bg-gray-100' : 'hover:bg-gray-100'} 
         transition-colors duration-200`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <Globe className='w-4 h-4 text-gray-300' />
-        <span className='text-gray-300 text-sm sm:text-base'>
+        <Globe className='w-4 h-4 text-gray-600' />
+        <span className='text-gray-600 text-sm sm:text-base'>
           {i18n.language.toUpperCase()}
         </span>
         <ChevronDown
-          className={`w-4 h-4 text-gray-300 transition-transform duration-200 
+          className={`w-4 h-4 text-gray-600 transition-transform duration-200 
         ${isLangOpen ? 'rotate-180' : ''}`}
         />
       </motion.button>
@@ -65,7 +74,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={`absolute z-50 mt-2 bg-slate-800 rounded-lg shadow-lg border border-white/10 backdrop-blur-lg
+            className={`absolute z-50 mt-2 bg-white rounded-lg shadow-lg border border-gray-200
             ${isMobile ? 'w-full left-0' : 'w-48 right-0'}`}
           >
             <div className='p-2'>
@@ -79,8 +88,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                   className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg
                   ${
                     currentLang === code
-                      ? 'bg-blue-500/20 text-blue-300'
-                      : 'text-gray-300 hover:bg-white/5'
+                      ? 'bg-[#203F6C]/10 text-[#203F6C]'
+                      : 'text-gray-600 hover:bg-gray-50'
                   }
                   transition-colors duration-200`}
                   whileHover={{ scale: 1.02 }}
@@ -93,7 +102,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                   {currentLang === code && (
                     <motion.div
                       layoutId='activeLang'
-                      className='w-2 h-2 rounded-full bg-blue-400'
+                      className='w-2 h-2 rounded-full bg-[#203F6C]'
                     />
                   )}
                 </motion.button>
@@ -112,11 +121,27 @@ const Navbar: React.FC = () => {
   const [isLangOpen, setIsLangOpen] = useState<boolean>(false)
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
-  const navLinks: NavLink[] = [
-    { title: t('navbar.home'), href: '/' },
-    { title: t('navbar.about'), href: '/about' },
-    { title: t('navbar.donate'), href: '/donate' },
-    { title: t('navbar.contact'), href: '/contact' },
+  const navLinks: (NavLink & { icon: React.ReactNode })[] = [
+    {
+      title: t('navbar.home'),
+      href: '/',
+      icon: <Home className='w-4 h-4' />,
+    },
+    {
+      title: t('navbar.about'),
+      href: '/about',
+      icon: <Star className='w-4 h-4' />,
+    },
+    {
+      title: t('navbar.donate'),
+      href: '/donate',
+      icon: <Heart className='w-4 h-4' />,
+    },
+    {
+      title: t('navbar.contact'),
+      href: '/contact',
+      icon: <Phone className='w-4 h-4' />,
+    },
   ]
 
   const languages: Languages = {
@@ -133,35 +158,34 @@ const Navbar: React.FC = () => {
   }
 
   useEffect(() => {
-    // Set the text direction based on the current language
     document.body.dir = i18n.dir()
 
-    // Handle scroll event
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
 
-    // Handle outside click event
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
-      if (!target.closest('.language-selector')) {
+      const languageSelector = target.closest('.language-selector')
+      const mobileMenu = target.closest('.mobile-menu')
+      const menuButton = target.closest('.menu-button')
+
+      if (!languageSelector) {
         setIsLangOpen(false)
       }
-      if (!target.closest('.mobile-menu') && !target.closest('.menu-button')) {
+      if (!mobileMenu && !menuButton) {
         setIsOpen(false)
       }
     }
 
-    // Add event listeners
     window.addEventListener('scroll', handleScroll)
-    document.addEventListener('click', handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside)
 
-    // Cleanup event listeners on unmount
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [i18n, i18n.language])
+  }, [i18n])
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
@@ -170,8 +194,7 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 
-      ${isScrolled ? 'bg-slate-900/95 shadow-lg' : 'bg-slate-900/80'} 
-      backdrop-blur-sm`}
+      ${isScrolled ? 'bg-white shadow-lg' : 'bg-white'}`}
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex justify-between items-center h-16 sm:h-20'>
@@ -183,7 +206,6 @@ const Navbar: React.FC = () => {
             className='flex-shrink-0'
           >
             <Link to='/' className='flex items-center'>
-              {/* Replace the text with the logo image */}
               <img
                 src={logo}
                 alt='Move Together Logo'
@@ -203,14 +225,17 @@ const Navbar: React.FC = () => {
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.title}
-                  className='text-sm lg:text-base text-gray-300 hover:text-[#47b2e4] transition-colors duration-200'
+                  className='text-sm lg:text-base text-[#203F6C] hover:text-[#F4B714] transition-colors duration-200'
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Link to={link.href}>{link.title}</Link>
+                  <Link to={link.href} className='flex items-center gap-2'>
+                    {link.icon}
+                    <span>{link.title}</span>
+                  </Link>
                 </motion.div>
               ))}
               <div className='language-selector'>
@@ -232,8 +257,11 @@ const Navbar: React.FC = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className='menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-slate-800 focus:outline-none'
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsOpen(!isOpen)
+              }}
+              className='menu-button inline-flex items-center justify-center p-2 rounded-md text-[#203F6C] hover:text-[#F4B714] hover:bg-gray-100 focus:outline-none'
               aria-label='Main menu'
               aria-expanded='false'
             >
@@ -257,18 +285,19 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.3 }}
             className='mobile-menu md:hidden'
           >
-            <div className='px-4 pt-2 pb-6 space-y-3 bg-slate-900/95 backdrop-blur-sm border-t border-white/10'>
+            <div className='px-4 pt-2 pb-6 space-y-3 bg-white border-t border-gray-200'>
               {navLinks.map((link, index) => (
                 <motion.a
                   key={link.title}
                   href={link.href}
-                  className='block text-gray-300 hover:text-[#47b2e4] transition-colors duration-200 py-2 text-sm'
+                  className='flex items-center gap-3 text-[#203F6C] hover:text-[#F4B714] transition-colors duration-200 py-2 text-sm'
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   onClick={() => setIsOpen(false)}
                 >
-                  {link.title}
+                  {link.icon}
+                  <span>{link.title}</span>
                 </motion.a>
               ))}
               <div className='py-2'>
@@ -281,15 +310,6 @@ const Navbar: React.FC = () => {
                   setIsLangOpen={setIsLangOpen}
                 />
               </div>
-              <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: navLinks.length * 0.1 }}
-                className='w-full bg-[#47b2e4] text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#47b2e4]/90 transition-all'
-                onClick={() => setIsOpen(false)}
-              >
-                Get Quote
-              </motion.button>
             </div>
           </motion.div>
         )}
