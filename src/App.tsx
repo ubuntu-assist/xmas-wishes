@@ -20,5 +20,3 @@ function App() {
 }
 
 export default App
-
-// NUI: P040217967226T

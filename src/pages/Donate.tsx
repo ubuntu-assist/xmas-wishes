@@ -4,15 +4,120 @@ import {
   Heart,
   ChevronDown,
   ChevronUp,
-  Gift,
   MapPin,
   GiftIcon,
   User,
 } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+// Validation schema using Zod
+const donationSchema = z.object({
+  // Personal Information
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  telephone: z
+    .string()
+    .regex(/^\+?[\d\s-]{10,}$/, 'Please enter a valid phone number'),
+  email: z.string().email('Please enter a valid email address'),
+
+  // Pickup Details
+  donationDate: z.string().refine((date) => {
+    const selectedDate = new Date(date)
+    const today = new Date()
+    return selectedDate >= today
+  }, 'Please select a future date'),
+  preferredTime: z.enum(
+    ['Morning (9AM - 12PM)', 'Afternoon (12PM - 4PM)', 'Evening (4PM - 7PM)'],
+    {
+      errorMap: () => ({ message: 'Please select a preferred time' }),
+    }
+  ),
+  address: z.object({
+    street: z.string().min(5, 'Please enter a valid street address'),
+    city: z.string().min(2, 'Please enter a valid city'),
+    province: z.string().min(2, 'Please enter a valid province'),
+    postalCode: z
+      .string()
+      .regex(
+        /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/,
+        'Please enter a valid postal code'
+      ),
+  }),
+
+  // Donation Details
+  itemDescription: z
+    .string()
+    .min(20, 'Please provide a detailed description of at least 20 characters'),
+  condition: z.enum(
+    ['Like New', 'Gently Used', 'Good', 'Fair', 'Needs Minor Repair'],
+    {
+      errorMap: () => ({
+        message: 'Please select the condition of your items',
+      }),
+    }
+  ),
+  handlingInstructions: z.string().optional(),
+  additionalNotes: z.string().optional(),
+
+  // Terms acceptance
+  acceptedTerms: z.boolean().refine((val) => val === true, {
+    message: 'You must accept the terms and conditions',
+  }),
+})
+
+type DonationFormData = z.infer<typeof donationSchema>
 
 const DonatePage = () => {
   const [showTerms, setShowTerms] = useState(false)
-  const [acceptedTerms, setAcceptedTerms] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+  } = useForm<DonationFormData>({
+    resolver: zodResolver(donationSchema),
+    defaultValues: {
+      // Personal Information
+      name: '',
+      telephone: '',
+      email: '',
+
+      // Pickup Details
+      donationDate: new Date().toISOString().split('T')[0],
+      preferredTime: 'Morning (9AM - 12PM)',
+      address: {
+        street: '',
+        city: '',
+        province: '',
+        postalCode: '',
+      },
+
+      // Donation Details
+      itemDescription: '',
+      condition: 'Like New',
+      handlingInstructions: '',
+      additionalNotes: '',
+
+      // Terms
+      acceptedTerms: false,
+    },
+  })
+
+  const acceptedTerms = watch('acceptedTerms')
+
+  const onSubmit = async (data: DonationFormData) => {
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      console.log('Form submitted:', data)
+      // Handle success (e.g., show success message, redirect)
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      // Handle error (e.g., show error message)
+    }
+  }
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -47,6 +152,12 @@ const DonatePage = () => {
         'NND SERVICES respects the privacy of all donors and will not share personal information with third parties without consent, except as necessary to facilitate the donation process.',
     },
   ]
+
+  const ErrorMessage = ({ message }: { message: string | undefined }) => {
+    return message ? (
+      <span className='text-red-500 text-sm mt-1'>{message}</span>
+    ) : null
+  }
 
   return (
     <div className='bg-[#FFFFFF]'>
@@ -121,8 +232,12 @@ const DonatePage = () => {
       <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative'>
         <div className='absolute inset-0 bg-gradient-to-b from-white via-transparent to-white pointer-events-none' />
 
-        <motion.form {...fadeIn} className='space-y-12 relative'>
-          {/* Form sections with enhanced styling */}
+        <motion.form
+          {...fadeIn}
+          className='space-y-12 relative'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {/* Personal Information */}
           <div className='space-y-8 bg-white p-8 rounded-2xl shadow-lg border border-gray-100'>
             <div className='flex items-center space-x-4'>
               <div className='w-12 h-12 rounded-full bg-[#203F6C] flex items-center justify-center'>
@@ -139,32 +254,30 @@ const DonatePage = () => {
                   Name
                 </label>
                 <input
-                  type='text'
+                  {...register('name')}
                   className='w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F4B714] focus:border-[#F4B714] transition-all duration-200'
-                  required
                 />
+                <ErrorMessage message={errors.name?.message} />
               </div>
-              {/* Rest of the form fields with similar enhanced styling */}
-              {/* ... existing form fields ... */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Telephone
                 </label>
                 <input
-                  type='tel'
+                  {...register('telephone')}
                   className='w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F4B714] focus:border-[#F4B714] transition-all duration-200'
-                  required
                 />
+                <ErrorMessage message={errors.telephone?.message} />
               </div>
               <div className='sm:col-span-2'>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Email
                 </label>
                 <input
-                  type='email'
+                  {...register('email')}
                   className='w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F4B714] focus:border-[#F4B714] transition-all duration-200'
-                  required
                 />
+                <ErrorMessage message={errors.email?.message} />
               </div>
             </div>
           </div>
@@ -186,23 +299,25 @@ const DonatePage = () => {
                 </label>
                 <input
                   type='date'
+                  {...register('donationDate')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  required
                 />
+                <ErrorMessage message={errors.donationDate?.message} />
               </div>
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Preferred Time
                 </label>
                 <select
+                  {...register('preferredTime')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  required
                 >
                   <option value=''>Select a time</option>
                   <option>Morning (9AM - 12PM)</option>
                   <option>Afternoon (12PM - 4PM)</option>
                   <option>Evening (4PM - 7PM)</option>
                 </select>
+                <ErrorMessage message={errors.preferredTime?.message} />
               </div>
             </div>
 
@@ -211,30 +326,37 @@ const DonatePage = () => {
                 Pickup Address
               </label>
               <input
-                type='text'
+                {...register('address.street')}
                 placeholder='Street Address'
                 className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                required
               />
+              <ErrorMessage message={errors.address?.street?.message} />
+
               <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
-                <input
-                  type='text'
-                  placeholder='City'
-                  className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  required
-                />
-                <input
-                  type='text'
-                  placeholder='Province'
-                  className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  required
-                />
-                <input
-                  type='text'
-                  placeholder='Postal Code'
-                  className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  required
-                />
+                <div>
+                  <input
+                    {...register('address.city')}
+                    placeholder='City'
+                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                  />
+                  <ErrorMessage message={errors.address?.city?.message} />
+                </div>
+                <div>
+                  <input
+                    {...register('address.province')}
+                    placeholder='Province'
+                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                  />
+                  <ErrorMessage message={errors.address?.province?.message} />
+                </div>
+                <div>
+                  <input
+                    {...register('address.postalCode')}
+                    placeholder='Postal Code'
+                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                  />
+                  <ErrorMessage message={errors.address?.postalCode?.message} />
+                </div>
               </div>
             </div>
           </div>
@@ -255,18 +377,19 @@ const DonatePage = () => {
                   Item Description
                 </label>
                 <textarea
+                  {...register('itemDescription')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-32'
                   placeholder='Please provide a detailed description of each item (type, size, material, color)'
-                  required
                 />
+                <ErrorMessage message={errors.itemDescription?.message} />
               </div>
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Condition
                 </label>
                 <select
+                  {...register('condition')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  required
                 >
                   <option value=''>Select condition</option>
                   <option>Like New</option>
@@ -275,29 +398,34 @@ const DonatePage = () => {
                   <option>Fair</option>
                   <option>Needs Minor Repair</option>
                 </select>
+                <ErrorMessage message={errors.condition?.message} />
               </div>
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Handling Instructions
                 </label>
                 <textarea
+                  {...register('handlingInstructions')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24'
                   placeholder='Any special care needed when handling the items'
                 />
+                <ErrorMessage message={errors.handlingInstructions?.message} />
               </div>
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Additional Notes
                 </label>
                 <textarea
+                  {...register('additionalNotes')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24'
                   placeholder='Any other relevant information or specific requests'
                 />
+                <ErrorMessage message={errors.additionalNotes?.message} />
               </div>
             </div>
           </div>
 
-          {/* Terms and Conditions with enhanced styling */}
+          {/* Terms and Conditions */}
           <div className='space-y-4'>
             <button
               type='button'
@@ -336,29 +464,37 @@ const DonatePage = () => {
               <input
                 type='checkbox'
                 id='accept-terms'
-                checked={acceptedTerms}
-                onChange={(e) => setAcceptedTerms(e.target.checked)}
+                {...register('acceptedTerms')}
                 className='w-5 h-5 text-[#F4B714] border-gray-300 rounded focus:ring-[#F4B714]'
-                required
               />
               <label htmlFor='accept-terms' className='text-gray-700'>
                 I have read and accept the terms and conditions
               </label>
             </div>
+            <ErrorMessage message={errors.acceptedTerms?.message} />
           </div>
 
           {/* Submit Button */}
           <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
             <button
               type='submit'
-              disabled={!acceptedTerms}
-              className={`w-full px-8 py-4 text-xl font-semibold rounded-xl shadow-lg transition-all duration-200 ${
-                acceptedTerms
+              disabled={!acceptedTerms || isSubmitting}
+              className={`w-full px-8 py-4 text-xl font-semibold rounded-xl shadow-lg transition-all duration-200 relative ${
+                acceptedTerms && !isSubmitting
                   ? 'bg-[#F4B714] hover:bg-[#F4B714]/90 text-[#203F6C]'
                   : 'bg-gray-300 cursor-not-allowed text-gray-500'
               }`}
             >
-              Submit Donation Request
+              {isSubmitting ? (
+                <>
+                  <span className='opacity-0'>Submit Donation Request</span>
+                  <div className='absolute inset-0 flex items-center justify-center'>
+                    <div className='w-6 h-6 border-2 border-[#203F6C] border-t-transparent rounded-full animate-spin'></div>
+                  </div>
+                </>
+              ) : (
+                'Submit Donation Request'
+              )}
             </button>
           </motion.div>
         </motion.form>

@@ -1,13 +1,5 @@
 import { motion } from 'framer-motion'
-import {
-  Heart,
-  Box,
-  Truck,
-  Recycle,
-  CheckCircle,
-  Star,
-  Info,
-} from 'lucide-react'
+import { Heart, Box, Truck, Recycle, CheckCircle, Star } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 const AboutPage = () => {

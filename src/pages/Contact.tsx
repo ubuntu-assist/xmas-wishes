@@ -63,6 +63,7 @@ const ContactPage: React.FC = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
+    console.log(data)
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500))
       setSubmitSuccess(true)

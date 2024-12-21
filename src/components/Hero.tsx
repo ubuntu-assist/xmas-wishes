@@ -60,7 +60,6 @@ const HeroSection = () => {
       {/* Dynamic Background */}
       <div className='absolute inset-0 bg-gradient-to-br from-[#203F6C] via-[#203F6C]/90 to-[#203F6C]'>
         <div className='absolute inset-0'>
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
