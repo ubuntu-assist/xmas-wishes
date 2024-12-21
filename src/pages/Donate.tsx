@@ -256,17 +256,24 @@ const DonatePage = () => {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='name'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Name
                 </label>
                 <input
+                  id='name'
                   {...register('name')}
                   className='w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F4B714] focus:border-[#F4B714] transition-all duration-200'
                 />
                 <ErrorMessage message={errors.name?.message} />
               </div>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='phone'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Telephone
                 </label>
                 <Controller
@@ -284,10 +291,14 @@ const DonatePage = () => {
                 <ErrorMessage message={errors.phone?.message} />
               </div>
               <div className='sm:col-span-2'>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='email'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Email
                 </label>
                 <input
+                  id='email'
                   {...register('email')}
                   className='w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F4B714] focus:border-[#F4B714] transition-all duration-200'
                 />
@@ -308,10 +319,14 @@ const DonatePage = () => {
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='date'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Donation Date
                 </label>
                 <input
+                  id='date'
                   type='date'
                   {...register('donationDate')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
@@ -319,10 +334,14 @@ const DonatePage = () => {
                 <ErrorMessage message={errors.donationDate?.message} />
               </div>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='preferredTime'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Preferred Time
                 </label>
                 <select
+                  id='preferredTime'
                   {...register('preferredTime')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                 >
@@ -336,7 +355,10 @@ const DonatePage = () => {
             </div>
 
             <div className='space-y-4'>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
+              <label
+                htmlFor='address'
+                className='block text-sm font-medium text-gray-700 mb-2'
+              >
                 Pickup Address
               </label>
               <input
@@ -387,10 +409,14 @@ const DonatePage = () => {
             </div>
             <div className='space-y-4'>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='itemDescription'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Item Description
                 </label>
                 <textarea
+                  id='itemDescription'
                   {...register('itemDescription')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-32'
                   placeholder='Please provide a detailed description of each item (type, size, material, color)'
@@ -398,10 +424,14 @@ const DonatePage = () => {
                 <ErrorMessage message={errors.itemDescription?.message} />
               </div>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='condition'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Condition
                 </label>
                 <select
+                  id='condition'
                   {...register('condition')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                 >
@@ -415,10 +445,14 @@ const DonatePage = () => {
                 <ErrorMessage message={errors.condition?.message} />
               </div>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='handlingInstructions'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Handling Instructions
                 </label>
                 <textarea
+                  id='handlingInstructions'
                   {...register('handlingInstructions')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24'
                   placeholder='Any special care needed when handling the items'
@@ -426,10 +460,14 @@ const DonatePage = () => {
                 <ErrorMessage message={errors.handlingInstructions?.message} />
               </div>
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label
+                  htmlFor='additionalNotes'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
                   Additional Notes
                 </label>
                 <textarea
+                  id='additionalNotes'
                   {...register('additionalNotes')}
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24'
                   placeholder='Any other relevant information or specific requests'

@@ -194,12 +194,16 @@ const ContactPage: React.FC = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
                   <div className='grid sm:grid-cols-2 gap-6'>
                     <div className='space-y-2'>
-                      <label className='text-sm font-medium text-[#203F6C]'>
+                      <label
+                        htmlFor='name'
+                        className='text-sm font-medium text-[#203F6C]'
+                      >
                         Name
                       </label>
                       <Input
                         {...register('name')}
                         placeholder='Your name'
+                        id='name'
                         className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
                           errors.name ? 'border-[#D7262F]' : ''
                         }`}
@@ -211,11 +215,15 @@ const ContactPage: React.FC = () => {
                       )}
                     </div>
                     <div className='space-y-2'>
-                      <label className='text-sm font-medium text-[#203F6C]'>
+                      <label
+                        htmlFor='email'
+                        className='text-sm font-medium text-[#203F6C]'
+                      >
                         Email
                       </label>
                       <Input
                         type='email'
+                        id='email'
                         {...register('email')}
                         placeholder='your@email.com'
                         className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
@@ -231,7 +239,10 @@ const ContactPage: React.FC = () => {
                   </div>
 
                   <div className='space-y-2'>
-                    <label className='text-sm font-medium text-[#203F6C]'>
+                    <label
+                      htmlFor='phone'
+                      className='text-sm font-medium text-[#203F6C]'
+                    >
                       Phone
                     </label>
                     <Controller
@@ -271,10 +282,14 @@ const ContactPage: React.FC = () => {
                   </div>
 
                   <div className='space-y-2'>
-                    <label className='text-sm font-medium text-[#203F6C]'>
+                    <label
+                      htmlFor='message'
+                      className='text-sm font-medium text-[#203F6C]'
+                    >
                       Message
                     </label>
                     <Textarea
+                      id='message'
                       {...register('message')}
                       placeholder='Your message'
                       className={`h-32 resize-none transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
