@@ -56,10 +56,10 @@ const HeroSection = () => {
   }
 
   return (
-    <section className='relative min-h-[100dvh] pt-16 sm:pt-20'>
+    <section className='relative min-h-[100dvh] pt-16 sm:pt-20 overflow-x-hidden'>
       {/* Dynamic Background */}
       <div className='absolute inset-0 bg-gradient-to-br from-[#203F6C] via-[#203F6C]/90 to-[#203F6C]'>
-        <div className='absolute inset-0'>
+        <div className='absolute inset-0 overflow-hidden'>
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
@@ -89,7 +89,7 @@ const HeroSection = () => {
       </div>
 
       {/* Main Content */}
-      <div className='relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[100dvh] flex flex-col justify-center'>
+      <div className='relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[100dvh] flex flex-col justify-center overflow-x-hidden'>
         <div className='grid lg:grid-cols-2 gap-8 lg:gap-16 items-center'>
           {/* Left Column */}
           <motion.div

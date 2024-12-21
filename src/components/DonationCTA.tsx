@@ -51,7 +51,7 @@ const DonationCTA = () => {
   ]
 
   return (
-    <div className='relative bg-[#203F6C] py-16 sm:py-20 lg:py-32 overflow-hidden'>
+    <div className='relative bg-[#203F6C] py-16 sm:py-20 lg:py-32 overflow-hidden overflow-x-hidden'>
       {/* Decorative elements */}
       <div className='absolute inset-0'>
         <motion.div
@@ -64,7 +64,7 @@ const DonationCTA = () => {
             repeat: Infinity,
             ease: 'easeInOut',
           }}
-          className='absolute w-[400px] sm:w-[600px] lg:w-[800px] h-[400px] sm:h-[600px] lg:h-[800px] -top-1/2 -right-1/4 bg-[#F4B714]/10 rounded-full blur-3xl'
+          className='absolute w-[400px] sm:w-[600px] lg:w-[800px] h-[400px] sm:h-[600px] lg:h-[800px] top-1/4 right-1/4 bg-[#F4B714]/10 rounded-full blur-3xl'
         />
         <motion.div
           animate={{
@@ -77,7 +77,7 @@ const DonationCTA = () => {
             ease: 'easeInOut',
             delay: 2,
           }}
-          className='absolute w-[300px] sm:w-[400px] lg:w-[600px] h-[300px] sm:h-[400px] lg:h-[600px] -bottom-1/4 -left-1/4 bg-[#F4B714]/10 rounded-full blur-3xl'
+          className='absolute w-[300px] sm:w-[400px] lg:w-[600px] h-[300px] sm:h-[400px] lg:h-[600px] bottom-1/4 left-1/4 bg-[#F4B714]/10 rounded-full blur-3xl'
         />
       </div>
 

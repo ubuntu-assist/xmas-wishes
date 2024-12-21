@@ -19,7 +19,7 @@ interface VideoModalProps {
 const VideoModal: FC<VideoModalProps> = ({
   isOpen,
   onClose,
-  videoUrl = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4', // Default test video
+  videoUrl = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4',
 }) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
@@ -114,7 +114,7 @@ const VideoModal: FC<VideoModalProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm'
+        className='fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2 sm:p-4 md:p-6'
         onClick={onClose}
       >
         <motion.div
@@ -122,7 +122,7 @@ const VideoModal: FC<VideoModalProps> = ({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className='relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl'
+          className='relative w-full max-w-5xl bg-black rounded-lg sm:rounded-2xl overflow-hidden shadow-2xl'
           onClick={(e) => e.stopPropagation()}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setShowControls(true)}
@@ -131,7 +131,7 @@ const VideoModal: FC<VideoModalProps> = ({
           <div className='relative aspect-video bg-black'>
             {isLoading && (
               <div className='absolute inset-0 flex items-center justify-center'>
-                <div className='w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin' />
+                <div className='w-8 h-8 sm:w-12 sm:h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin' />
               </div>
             )}
             <video
@@ -149,15 +149,15 @@ const VideoModal: FC<VideoModalProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: showControls ? 1 : 0 }}
               transition={{ duration: 0.2 }}
-              className='absolute inset-0 flex flex-col justify-between bg-gradient-to-b from-black/50 via-transparent to-black/50 p-4'
+              className='absolute inset-0 flex flex-col justify-between bg-gradient-to-b from-black/50 via-transparent to-black/50 p-2 sm:p-4'
             >
               {/* Top Bar */}
               <div className='flex justify-end'>
                 <button
                   onClick={onClose}
-                  className='p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors'
+                  className='p-1.5 sm:p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors'
                 >
-                  <X className='w-5 h-5' />
+                  <X className='w-4 h-4 sm:w-5 sm:h-5' />
                 </button>
               </div>
 
@@ -166,15 +166,15 @@ const VideoModal: FC<VideoModalProps> = ({
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className='absolute inset-0 m-auto w-20 h-20 flex items-center justify-center rounded-full bg-blue-500 text-white'
+                  className='absolute inset-0 m-auto w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-blue-500 text-white'
                   onClick={handlePlayPause}
                 >
-                  <Play className='w-8 h-8 ml-1' />
+                  <Play className='w-6 h-6 sm:w-8 sm:h-8 ml-1' />
                 </motion.button>
               )}
 
               {/* Bottom Controls */}
-              <div className='space-y-2'>
+              <div className='space-y-1.5 sm:space-y-2'>
                 {/* Progress Bar */}
                 <div
                   ref={progressRef}
@@ -185,48 +185,48 @@ const VideoModal: FC<VideoModalProps> = ({
                     className='h-full bg-blue-500 rounded-full relative'
                     style={{ width: `${(currentTime / duration) * 100}%` }}
                   >
-                    <div className='absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-blue-500 rounded-full transform -translate-x-1/2' />
+                    <div className='absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full transform -translate-x-1/2' />
                   </motion.div>
                 </div>
 
                 {/* Controls Bar */}
                 <div className='flex items-center justify-between'>
-                  <div className='flex items-center gap-4'>
+                  <div className='flex items-center gap-2 sm:gap-4'>
                     <button
                       onClick={handlePlayPause}
-                      className='p-2 rounded-full hover:bg-white/10 transition-colors'
+                      className='p-1.5 sm:p-2 rounded-full hover:bg-white/10 transition-colors'
                     >
                       {isPlaying ? (
-                        <Pause className='w-5 h-5 text-white' />
+                        <Pause className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
                       ) : (
-                        <Play className='w-5 h-5 text-white' />
+                        <Play className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
                       )}
                     </button>
                     <button
                       onClick={handleRestart}
-                      className='p-2 rounded-full hover:bg-white/10 transition-colors'
+                      className='p-1.5 sm:p-2 rounded-full hover:bg-white/10 transition-colors'
                     >
-                      <RotateCcw className='w-5 h-5 text-white' />
+                      <RotateCcw className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
                     </button>
                     <button
                       onClick={() => setIsMuted(!isMuted)}
-                      className='p-2 rounded-full hover:bg-white/10 transition-colors'
+                      className='p-1.5 sm:p-2 rounded-full hover:bg-white/10 transition-colors'
                     >
                       {isMuted ? (
-                        <VolumeX className='w-5 h-5 text-white' />
+                        <VolumeX className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
                       ) : (
-                        <Volume2 className='w-5 h-5 text-white' />
+                        <Volume2 className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
                       )}
                     </button>
-                    <span className='text-white text-sm'>
+                    <span className='text-white text-xs sm:text-sm hidden xs:inline-block'>
                       {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
                   </div>
                   <button
                     onClick={handleFullscreen}
-                    className='p-2 rounded-full hover:bg-white/10 transition-colors'
+                    className='p-1.5 sm:p-2 rounded-full hover:bg-white/10 transition-colors'
                   >
-                    <Maximize className='w-5 h-5 text-white' />
+                    <Maximize className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
                   </button>
                 </div>
               </div>
