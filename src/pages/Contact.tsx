@@ -101,7 +101,7 @@ const fireConfetti = () => {
 const ContactPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
   const [submitSuccess, setSubmitSuccess] = React.useState<boolean>(false)
-  const [submitError, setSubmitError] = React.useState<string>('')
+  // const [submitError, setSubmitError] = React.useState<string>('')
 
   const {
     control,
@@ -122,7 +122,7 @@ const ContactPage: React.FC = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
-    setSubmitError('')
+    // setSubmitError('')
 
     try {
       const templateParams = {
@@ -151,7 +151,7 @@ const ContactPage: React.FC = () => {
       }, 3000)
     } catch (error) {
       console.error('Error submitting form:', error)
-      setSubmitError('Failed to send message. Please try again later.')
+      // setSubmitError('Failed to send message. Please try again later.')
     } finally {
       setIsSubmitting(false)
     }
