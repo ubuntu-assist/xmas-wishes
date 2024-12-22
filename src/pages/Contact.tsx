@@ -157,6 +157,10 @@ const ContactPage: React.FC = () => {
     }
   }
 
+  React.useEffect(() => {
+    emailjs.init('4s4GLJPhNfpF4AGml')
+  }, [])
+
   const contactInfo: ContactInfo[] = [
     {
       icon: Phone,
