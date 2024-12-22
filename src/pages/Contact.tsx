@@ -21,6 +21,8 @@ import Community from '@/components/Community'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import { PhoneInput } from '@/components/PhoneInput'
 import SEO from '@/lib/seo'
+import emailjs from '@emailjs/browser'
+import confetti from 'canvas-confetti'
 
 const contactFormSchema = z.object({
   phone: z
@@ -46,9 +48,60 @@ interface ContactInfo {
   details: string | string[]
 }
 
+const fireConfetti = () => {
+  // Fire multiple confetti bursts for a more spectacular effect
+  const count = 200
+  const defaults = {
+    origin: { y: 0.7 },
+    zIndex: 1000,
+  }
+
+  function fire(particleRatio: number, opts: confetti.Options) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio),
+    })
+  }
+
+  // Launch confetti in multiple bursts with different colors and angles
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+    colors: ['#203F6C', '#F4B714'], // Using your brand colors
+  })
+
+  fire(0.2, {
+    spread: 60,
+    colors: ['#203F6C', '#F4B714'],
+  })
+
+  fire(0.35, {
+    spread: 100,
+    decay: 0.91,
+    scalar: 0.8,
+    colors: ['#203F6C', '#F4B714'],
+  })
+
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 25,
+    decay: 0.92,
+    scalar: 1.2,
+    colors: ['#203F6C', '#F4B714'],
+  })
+
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+    colors: ['#203F6C', '#F4B714'],
+  })
+}
+
 const ContactPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
   const [submitSuccess, setSubmitSuccess] = React.useState<boolean>(false)
+  const [submitError, setSubmitError] = React.useState<string>('')
 
   const {
     control,
@@ -69,16 +122,36 @@ const ContactPage: React.FC = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
-    console.log(data)
+    setSubmitError('')
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const templateParams = {
+        from_name: data.name,
+        from_email: data.email,
+        from_phone: data.phone,
+        subject: data.subject,
+        message: data.message,
+        to_name: 'NND Services',
+        reply_to: data.email,
+      }
+
+      await emailjs.send(
+        'service_z7gd4ts',
+        'template_s16jagq',
+        templateParams,
+        '4s4GLJPhNfpF4AGml'
+      )
+
       setSubmitSuccess(true)
+      fireConfetti()
+      reset()
+
       setTimeout(() => {
         setSubmitSuccess(false)
-        reset()
       }, 3000)
     } catch (error) {
       console.error('Error submitting form:', error)
+      setSubmitError('Failed to send message. Please try again later.')
     } finally {
       setIsSubmitting(false)
     }
