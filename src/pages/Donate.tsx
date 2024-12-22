@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   Heart,
   ChevronDown,
@@ -7,12 +7,28 @@ import {
   MapPin,
   GiftIcon,
   User,
+  Check,
 } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PhoneInput } from '@/components/PhoneInput'
 import { isValidPhoneNumber } from 'react-phone-number-input'
+import confetti from 'canvas-confetti'
+import emailjs from '@emailjs/browser'
+
+// Types for email configuration
+interface EmailJSConfig {
+  serviceId: string
+  templateId: string
+  publicKey: string
+}
+
+// Types for success modal props
+interface SuccessModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
 
 // Validation schema using Zod
 const donationSchema = z.object({
@@ -73,8 +89,50 @@ const donationSchema = z.object({
 
 type DonationFormData = z.infer<typeof donationSchema>
 
+const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose }) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center'
+        >
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            className='bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative'
+          >
+            <div className='text-center'>
+              <div className='w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <Check className='w-8 h-8 text-green-500' />
+              </div>
+              <h2 className='text-2xl font-bold text-gray-900 mb-2'>
+                Thank You!
+              </h2>
+              <p className='text-gray-600 mb-6'>
+                Your donation request has been successfully submitted. We'll
+                contact you soon to arrange the pickup.
+              </p>
+              <button
+                onClick={onClose}
+                className='bg-[#203F6C] text-white px-6 py-2 rounded-lg hover:bg-[#203F6C]/90 transition-colors'
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
 const DonatePage = () => {
   const [showTerms, setShowTerms] = useState(false)
+  const [showSuccess, setShowSuccess] = useState<boolean>(false)
 
   const {
     control,
@@ -113,12 +171,92 @@ const DonatePage = () => {
 
   const acceptedTerms = watch('acceptedTerms')
 
-  const onSubmit = async (data: DonationFormData) => {
+  const triggerConfetti = (): void => {
+    const duration = 3000
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+
+    const randomInRange = (min: number, max: number): number =>
+      Math.random() * (max - min) + min
+
+    const interval = setInterval(() => {
+      const particleCount = 50
+
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      })
+
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      })
+    }, 250)
+
+    setTimeout(() => clearInterval(interval), duration)
+  }
+
+  const formatEmailContent = (data: DonationFormData): string => {
+    return `
+NEW DONATION REQUEST
+
+PERSONAL INFORMATION
+------------------
+Name: ${data.name}
+Phone: ${data.phone}
+Email: ${data.email}
+
+PICKUP DETAILS
+-------------
+Date: ${data.donationDate}
+Time: ${data.preferredTime}
+Address: ${data.address.street}
+         ${data.address.city}, ${data.address.province} ${
+      data.address.postalCode
+    }
+
+DONATION DETAILS
+--------------
+Description:
+${data.itemDescription}
+
+Condition: ${data.condition}
+${
+  data.handlingInstructions
+    ? `\nHandling Instructions:\n${data.handlingInstructions}`
+    : ''
+}
+${data.additionalNotes ? `\nAdditional Notes:\n${data.additionalNotes}` : ''}
+`.trim()
+  }
+
+  const onSubmit = async (data: DonationFormData): Promise<void> => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log('Form submitted:', data)
-      // Handle success (e.g., show success message, redirect)
+      const emailjsConfig: EmailJSConfig = {
+        serviceId: 'service_z7gd4ts',
+        templateId: 'template_j9fth11',
+        publicKey: '4s4GLJPhNfpF4AGml',
+      }
+
+      const templateParams = {
+        from_name: data.name,
+        from_email: data.email,
+        subject: `New Donation Request from ${data.name}`,
+        message: formatEmailContent(data),
+        to_name: 'NND Services',
+        reply_to: data.email,
+      }
+
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        templateParams,
+        emailjsConfig.publicKey
+      )
+
+      triggerConfetti()
+      setShowSuccess(true)
     } catch (error) {
       console.error('Error submitting form:', error)
       // Handle error (e.g., show error message)
@@ -549,6 +687,11 @@ const DonatePage = () => {
             </button>
           </motion.div>
         </motion.form>
+
+        <SuccessModal
+          isOpen={showSuccess}
+          onClose={() => setShowSuccess(false)}
+        />
       </div>
     </div>
   )
