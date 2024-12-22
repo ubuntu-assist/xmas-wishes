@@ -9,6 +9,7 @@ import {
   Heart,
   Phone,
   Star,
+  Settings,
 } from 'lucide-react'
 import { Link } from 'react-router'
 import logo from '@/assets/images/logo.png'
@@ -123,9 +124,9 @@ const Navbar: React.FC = () => {
 
   const navLinks: (NavLink & { icon: React.ReactNode })[] = [
     {
-      title: t('navbar.home'),
-      href: '/',
-      icon: <Home className='w-4 h-4' />,
+      title: 'Services',
+      href: '/services',
+      icon: <Settings className='w-4 h-4' />,
     },
     {
       title: t('navbar.about'),

@@ -212,7 +212,7 @@ const DonatePage = () => {
               <Heart className='w-12 h-12 sm:w-16 sm:h-16 text-[#203F6C]' />
             </motion.div>
             <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-8'>
-              Make a Difference
+              Be the Change
             </h1>
             <div className='relative'>
               <motion.div
@@ -228,8 +228,7 @@ const DonatePage = () => {
               transition={{ duration: 1, delay: 0.8 }}
               className='mt-6 text-lg sm:text-xl text-black max-w-2xl mx-auto'
             >
-              Your generous donations help us create positive change in our
-              community
+              Your generosity drives impactful transformations in our community.
             </motion.p>
           </motion.div>
         </div>

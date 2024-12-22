@@ -83,8 +83,8 @@ const AboutPage = () => {
                 transition={{ duration: 1, delay: 0.8 }}
                 className='mt-6 text-lg sm:text-xl text-black max-w-2xl mx-auto'
               >
-                Your generous donations help us create positive change in our
-                community
+                Empowering communities through reliable services and meaningful
+                donations. Together, we make a positive impact.
               </motion.p>
             </motion.div>
           </div>

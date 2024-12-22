@@ -1,13 +1,13 @@
 import {
-  IconBrandFacebookFilled,
-  IconBrandInstagramFilled,
-  IconBrandLinkedinFilled,
-  IconBrandXFilled,
+  IconBrandFacebook,
+  IconBrandLinkedin,
+  IconBrandWhatsapp,
 } from '@tabler/icons-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, MapPin, Clock, ArrowRight, ArrowUp } from 'lucide-react'
+import { Mail, MapPin, ArrowRight, ArrowUp, PhoneCall } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import logo from '@/assets/images/logo.png'
+import { Link } from 'react-router'
 
 const Footer = () => {
   const [showScroll, setShowScroll] = useState(false)
@@ -33,17 +33,28 @@ const Footer = () => {
   }
 
   const quickLinks = [
-    { label: 'About Us', href: '#' },
-    { label: 'Our Services', href: '#' },
-    { label: 'Contact Us', href: '#' },
-    { label: 'Latest News', href: '#' },
+    { label: 'Moving Services', href: '/services' },
+    { label: 'Delivery Services', href: '/services' },
+    { label: 'Junk Removal Services', href: '/services' },
+    { label: 'Donation Program', href: '/services' },
   ]
 
   const socialLinks = [
-    { Icon: IconBrandFacebookFilled, href: '#', label: 'Facebook' },
-    { Icon: IconBrandXFilled, href: '#', label: 'Twitter' },
-    { Icon: IconBrandInstagramFilled, href: '#', label: 'Instagram' },
-    { Icon: IconBrandLinkedinFilled, href: '#', label: 'LinkedIn' },
+    {
+      Icon: IconBrandWhatsapp,
+      href: 'https://api.whatsapp.com/send/?phone=13688895240&text&type=phone_number&app_absent=0',
+      label: 'WhatsApp',
+    },
+    {
+      Icon: IconBrandFacebook,
+      href: 'https://web.facebook.com/nndservices',
+      label: 'Facebook',
+    },
+    {
+      Icon: IconBrandLinkedin,
+      href: 'https://www.linkedin.com/company/nnd-services',
+      label: 'LinkedIn',
+    },
   ]
 
   return (
@@ -85,22 +96,22 @@ const Footer = () => {
                 whileHover={{ x: 5 }}
                 className='flex items-center space-x-3 text-white hover:text-[#F4B714] transition-colors cursor-pointer text-sm sm:text-base'
               >
-                <Mail className='h-5 w-5 flex-shrink-0' />
-                <span className='break-all'>contact@company.com</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ x: 5 }}
-                className='flex items-center space-x-3 text-white hover:text-[#F4B714] transition-colors cursor-pointer text-sm sm:text-base'
-              >
                 <MapPin className='h-5 w-5 flex-shrink-0' />
-                <span>123 Business Ave, City, ST 12345</span>
+                <span>24 Abberfield Crescent NE Calgary Alberta, T2A6N6</span>
               </motion.div>
               <motion.div
                 whileHover={{ x: 5 }}
                 className='flex items-center space-x-3 text-white hover:text-[#F4B714] transition-colors cursor-pointer text-sm sm:text-base'
               >
-                <Clock className='h-5 w-5 flex-shrink-0' />
-                <span>Mon-Sat: 8:00 AM - 6:00 PM</span>
+                <PhoneCall className='h-5 w-5 flex-shrink-0' />
+                <span className='break-all'>+1 368 889 5240</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ x: 5 }}
+                className='flex items-center space-x-3 text-white hover:text-[#F4B714] transition-colors cursor-pointer text-sm sm:text-base'
+              >
+                <Mail className='h-5 w-5 flex-shrink-0' />
+                <span className='break-all'>info@nndservices.com</span>
               </motion.div>
             </div>
           </motion.div>
@@ -112,19 +123,20 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h4 className='text-xl sm:text-2xl font-bold text-[#F4B714] mb-6 sm:mb-8'>
-              Quick Links
+              Our Services
             </h4>
             <ul className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <motion.a
-                    href={link.href}
-                    className='group flex items-center text-white hover:text-[#F4B714] transition-colors text-sm sm:text-base'
-                    whileHover={{ x: 5 }}
-                  >
-                    <ArrowRight className='h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity' />
-                    {link.label}
-                  </motion.a>
+                  <motion.div whileHover={{ x: 5 }}>
+                    <Link
+                      to={link.href}
+                      className='group flex items-center text-white hover:text-[#F4B714] transition-colors text-sm sm:text-base'
+                    >
+                      <ArrowRight className='h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity' />
+                      {link.label}
+                    </Link>
+                  </motion.div>
                 </li>
               ))}
             </ul>
@@ -140,7 +152,7 @@ const Footer = () => {
         >
           <div className='flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0'>
             <div className='text-white text-sm sm:text-base text-center sm:text-left'>
-              © {new Date().getFullYear()} Company Name
+              © {new Date().getFullYear()} NND Services
             </div>
             <div className='flex items-center space-x-3 sm:space-x-4'>
               {socialLinks.map(({ Icon, href, label }, index) => (
@@ -148,6 +160,7 @@ const Footer = () => {
                   key={index}
                   href={href}
                   aria-label={label}
+                  target='_blank'
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   className='bg-[#F4B714]/10 p-2 rounded-full hover:bg-[#D7262F] transition-colors'
                 >

@@ -1,19 +1,7 @@
-import {
-  HeroSection,
-  ServicesSection,
-  DonationCTA,
-  FAQSection,
-} from '@/components'
+import { HeroSection } from '@/components'
 
 const Home = () => {
-  return (
-    <>
-      <HeroSection />
-      <ServicesSection />
-      <DonationCTA />
-      <FAQSection />
-    </>
-  )
+  return <HeroSection />
 }
 
 export default Home

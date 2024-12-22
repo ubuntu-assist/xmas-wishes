@@ -20,6 +20,7 @@ import * as z from 'zod'
 import Community from '@/components/Community'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import { PhoneInput } from '@/components/PhoneInput'
+import SEO from '@/lib/seo'
 
 const contactFormSchema = z.object({
   phone: z
@@ -110,335 +111,346 @@ const ContactPage: React.FC = () => {
   ]
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-[#203F6C]/5 via-white to-[#203F6C]/5'>
-      <div className='relative bg-gradient-to-b from-[#203F6C] to-[#FFFFFF]'>
-        <div className='absolute inset-0'>
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={i}
-              className='absolute rounded-full mix-blend-soft-light filter blur-xl'
-              animate={{
-                scale: [1, 1.2, 1],
-                x: [0, 40, 0],
-                y: [0, 30, 0],
-              }}
-              transition={{
-                duration: 10,
-                delay: i * 2,
-                repeat: Infinity,
-                repeatType: 'reverse',
-              }}
-              style={{
-                width: ['20rem', '25rem', '30rem'][i],
-                height: ['20rem', '25rem', '30rem'][i],
-                left: `${i * 25}%`,
-                top: `${i * 10}%`,
-                backgroundColor: ['#F4B714', '#203F6C', '#D7262F'][i],
-                opacity: 0.1,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className='relative mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 lg:pt-40 pb-16 sm:pb-24 lg:pb-32'>
-          <motion.div
-            className='text-center'
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.8, type: 'spring' }}
-              className='w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full bg-[#F4B714] flex items-center justify-center shadow-lg'
-            >
-              <Contact className='w-12 h-12 sm:w-16 sm:h-16 text-[#203F6C]' />
-            </motion.div>
-            <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-8'>
-              Get In Touch
-            </h1>
-            <div className='relative'>
+    <>
+      <SEO
+        title='Contact NND Services | Get Moving & Delivery Service Quotes'
+        description='Contact NND Services for professional moving, delivery, and donation services in Calgary. Get quick quotes, schedule pickups, or learn about our community initiatives. Available 7 days a week.'
+        url='https://www.nndservices.com/contact'
+        image='https://www.nndservices.com/images/contact-og-image.jpg'
+        keywords='contact movers, moving quotes, delivery service contact, donation pickup, Calgary movers, schedule moving service, professional moving company contact'
+      />
+      <div className='min-h-screen bg-gradient-to-b from-[#203F6C]/5 via-white to-[#203F6C]/5'>
+        <div className='relative bg-gradient-to-b from-[#203F6C] to-[#FFFFFF]'>
+          <div className='absolute inset-0'>
+            {[...Array(3)].map((_, i) => (
               <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className='h-1 max-w-md mx-auto bg-gradient-to-r from-transparent via-[#F4B714] to-transparent'
+                key={i}
+                className='absolute rounded-full mix-blend-soft-light filter blur-xl'
+                animate={{
+                  scale: [1, 1.2, 1],
+                  x: [0, 40, 0],
+                  y: [0, 30, 0],
+                }}
+                transition={{
+                  duration: 10,
+                  delay: i * 2,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                }}
+                style={{
+                  width: ['20rem', '25rem', '30rem'][i],
+                  height: ['20rem', '25rem', '30rem'][i],
+                  left: `${i * 25}%`,
+                  top: `${i * 10}%`,
+                  backgroundColor: ['#F4B714', '#203F6C', '#D7262F'][i],
+                  opacity: 0.1,
+                }}
               />
-            </div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className='mt-6 text-lg sm:text-xl text-black max-w-2xl mx-auto'
+            ))}
+          </div>
+
+          <div className='relative mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 lg:pt-40 pb-16 sm:pb-24 lg:pb-32'>
+            <motion.div
+              className='text-center'
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
             >
-              Your generous donations help us create positive change in our
-              community
-            </motion.p>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className='relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24'>
-        <div className='grid lg:grid-cols-2 gap-12 lg:gap-16'>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Card className='overflow-hidden backdrop-blur-sm bg-white/80'>
-              <div className='p-6 sm:p-10'>
-                <h2 className='text-2xl font-semibold mb-6 text-[#203F6C]'>
-                  Send us a Message
-                </h2>
-                <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-                  <div className='grid sm:grid-cols-2 gap-6'>
-                    <div className='space-y-2'>
-                      <label
-                        htmlFor='name'
-                        className='text-sm font-medium text-[#203F6C]'
-                      >
-                        Name
-                      </label>
-                      <Input
-                        {...register('name')}
-                        placeholder='Your name'
-                        id='name'
-                        className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
-                          errors.name ? 'border-[#D7262F]' : ''
-                        }`}
-                      />
-                      {errors.name && (
-                        <p className='text-sm text-[#D7262F]'>
-                          {errors.name.message}
-                        </p>
-                      )}
-                    </div>
-                    <div className='space-y-2'>
-                      <label
-                        htmlFor='email'
-                        className='text-sm font-medium text-[#203F6C]'
-                      >
-                        Email
-                      </label>
-                      <Input
-                        type='email'
-                        id='email'
-                        {...register('email')}
-                        placeholder='your@email.com'
-                        className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
-                          errors.email ? 'border-[#D7262F]' : ''
-                        }`}
-                      />
-                      {errors.email && (
-                        <p className='text-sm text-[#D7262F]'>
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className='space-y-2'>
-                    <label
-                      htmlFor='phone'
-                      className='text-sm font-medium text-[#203F6C]'
-                    >
-                      Phone
-                    </label>
-                    <Controller
-                      name='phone'
-                      control={control}
-                      render={({ field }) => (
-                        <PhoneInput
-                          {...field}
-                          id='phone'
-                          placeholder='Enter a phone number'
-                          className='w-full border rounded-lg'
-                        />
-                      )}
-                    />
-                    {errors.phone && (
-                      <p className='text-sm text-[#D7262F]'>
-                        {errors.phone.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className='space-y-2'>
-                    <label className='text-sm font-medium text-[#203F6C]'>
-                      Subject
-                    </label>
-                    <Input
-                      {...register('subject')}
-                      placeholder='How can we help?'
-                      className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
-                        errors.subject ? 'border-[#D7262F]' : ''
-                      }`}
-                    />
-                    {errors.subject && (
-                      <p className='text-sm text-[#D7262F]'>
-                        {errors.subject.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className='space-y-2'>
-                    <label
-                      htmlFor='message'
-                      className='text-sm font-medium text-[#203F6C]'
-                    >
-                      Message
-                    </label>
-                    <Textarea
-                      id='message'
-                      {...register('message')}
-                      placeholder='Your message'
-                      className={`h-32 resize-none transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
-                        errors.message ? 'border-[#D7262F]' : ''
-                      }`}
-                    />
-                    {errors.message && (
-                      <p className='text-sm text-[#D7262F]'>
-                        {errors.message.message}
-                      </p>
-                    )}
-                  </div>
-                  <AnimatePresence>
-                    {submitSuccess && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                      >
-                        <Alert className='bg-green-50 border-green-200'>
-                          <CheckCircle className='w-4 h-4 text-green-500' />
-                          <AlertDescription className='text-green-700'>
-                            Message sent successfully! We'll get back to you
-                            soon.
-                          </AlertDescription>
-                        </Alert>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <Button
-                    type='submit'
-                    className='w-full bg-[#203F6C] hover:bg-[#203F6C]/90 text-white transition-all duration-300'
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 1,
-                          repeat: Infinity,
-                          ease: 'linear',
-                        }}
-                        className='w-5 h-5 border-2 border-white border-t-transparent rounded-full'
-                      />
-                    ) : (
-                      <>
-                        <Send className='w-4 h-4 mr-2' />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-                </form>
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.8, type: 'spring' }}
+                className='w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full bg-[#F4B714] flex items-center justify-center shadow-lg'
+              >
+                <Contact className='w-12 h-12 sm:w-16 sm:h-16 text-[#203F6C]' />
+              </motion.div>
+              <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-8'>
+                Contact Us
+              </h1>
+              <div className='relative'>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                  className='h-1 max-w-md mx-auto bg-gradient-to-r from-transparent via-[#F4B714] to-transparent'
+                />
               </div>
-            </Card>
-          </motion.div>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
+                className='mt-6 text-lg sm:text-xl text-black max-w-2xl mx-auto'
+              >
+                Connecting for a greater impact—let’s create positive change
+                together.
+              </motion.p>
+            </motion.div>
+          </div>
+        </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className='space-y-8'
-          >
-            <Card className='overflow-hidden backdrop-blur-sm bg-white/80'>
-              <div className='p-6 sm:p-10'>
-                <h2 className='text-2xl font-semibold mb-8 text-[#203F6C]'>
-                  Contact Information
-                </h2>
-                <div className='space-y-8'>
-                  {contactInfo.map((info, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className='flex items-start space-x-4'
-                    >
-                      <div className='w-12 h-12 rounded-xl bg-gradient-to-br from-[#203F6C] to-[#F4B714] p-0.5 flex-shrink-0'>
-                        <div className='w-full h-full rounded-xl bg-white flex items-center justify-center'>
-                          <info.icon className='w-6 h-6 text-[#203F6C]' />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className='font-medium text-[#203F6C]'>
-                          {info.title}
-                        </h3>
-                        {Array.isArray(info.details) ? (
-                          info.details.map((detail, idx) => (
-                            <p key={idx} className='text-gray-600'>
-                              {detail}
-                            </p>
-                          ))
-                        ) : (
-                          <p className='text-gray-600'>{info.details}</p>
+        <div className='relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24'>
+          <div className='grid lg:grid-cols-2 gap-12 lg:gap-16'>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Card className='overflow-hidden backdrop-blur-sm bg-white/80'>
+                <div className='p-6 sm:p-10'>
+                  <h2 className='text-2xl font-semibold mb-6 text-[#203F6C]'>
+                    Send us a Message
+                  </h2>
+                  <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+                    <div className='grid sm:grid-cols-2 gap-6'>
+                      <div className='space-y-2'>
+                        <label
+                          htmlFor='name'
+                          className='text-sm font-medium text-[#203F6C]'
+                        >
+                          Name
+                        </label>
+                        <Input
+                          {...register('name')}
+                          placeholder='Your name'
+                          id='name'
+                          className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
+                            errors.name ? 'border-[#D7262F]' : ''
+                          }`}
+                        />
+                        {errors.name && (
+                          <p className='text-sm text-[#D7262F]'>
+                            {errors.name.message}
+                          </p>
                         )}
                       </div>
-                    </motion.div>
-                  ))}
+                      <div className='space-y-2'>
+                        <label
+                          htmlFor='email'
+                          className='text-sm font-medium text-[#203F6C]'
+                        >
+                          Email
+                        </label>
+                        <Input
+                          type='email'
+                          id='email'
+                          {...register('email')}
+                          placeholder='your@email.com'
+                          className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
+                            errors.email ? 'border-[#D7262F]' : ''
+                          }`}
+                        />
+                        {errors.email && (
+                          <p className='text-sm text-[#D7262F]'>
+                            {errors.email.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className='space-y-2'>
+                      <label
+                        htmlFor='phone'
+                        className='text-sm font-medium text-[#203F6C]'
+                      >
+                        Phone
+                      </label>
+                      <Controller
+                        name='phone'
+                        control={control}
+                        render={({ field }) => (
+                          <PhoneInput
+                            {...field}
+                            id='phone'
+                            placeholder='Enter a phone number'
+                            className='w-full border rounded-lg'
+                          />
+                        )}
+                      />
+                      {errors.phone && (
+                        <p className='text-sm text-[#D7262F]'>
+                          {errors.phone.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className='space-y-2'>
+                      <label className='text-sm font-medium text-[#203F6C]'>
+                        Subject
+                      </label>
+                      <Input
+                        {...register('subject')}
+                        placeholder='How can we help?'
+                        className={`transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
+                          errors.subject ? 'border-[#D7262F]' : ''
+                        }`}
+                      />
+                      {errors.subject && (
+                        <p className='text-sm text-[#D7262F]'>
+                          {errors.subject.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className='space-y-2'>
+                      <label
+                        htmlFor='message'
+                        className='text-sm font-medium text-[#203F6C]'
+                      >
+                        Message
+                      </label>
+                      <Textarea
+                        id='message'
+                        {...register('message')}
+                        placeholder='Your message'
+                        className={`h-32 resize-none transition-all duration-300 focus:ring-2 focus:ring-[#203F6C] ${
+                          errors.message ? 'border-[#D7262F]' : ''
+                        }`}
+                      />
+                      {errors.message && (
+                        <p className='text-sm text-[#D7262F]'>
+                          {errors.message.message}
+                        </p>
+                      )}
+                    </div>
+                    <AnimatePresence>
+                      {submitSuccess && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                        >
+                          <Alert className='bg-green-50 border-green-200'>
+                            <CheckCircle className='w-4 h-4 text-green-500' />
+                            <AlertDescription className='text-green-700'>
+                              Message sent successfully! We'll get back to you
+                              soon.
+                            </AlertDescription>
+                          </Alert>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <Button
+                      type='submit'
+                      className='w-full bg-[#203F6C] hover:bg-[#203F6C]/90 text-white transition-all duration-300'
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: 'linear',
+                          }}
+                          className='w-5 h-5 border-2 border-white border-t-transparent rounded-full'
+                        />
+                      ) : (
+                        <>
+                          <Send className='w-4 h-4 mr-2' />
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+                  </form>
                 </div>
-              </div>
-            </Card>
-          </motion.div>
-        </div>
-        <div className='mt-24'>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className='text-3xl font-semibold text-center mb-8 text-[#203F6C]'>
-              Where to find us
-            </h2>
-            <Card className='overflow-hidden backdrop-blur-sm bg-white/80'>
-              <div className='p-6 sm:p-10'>
-                <div className='w-full h-96 bg-gray-100 rounded-lg relative overflow-hidden'>
-                  <div className='absolute inset-0 bg-gray-200 animate-pulse'>
-                    <div className='absolute inset-0 flex items-center justify-center'>
-                      <MapPin className='w-12 h-12 text-[#203F6C]' />
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className='space-y-8'
+            >
+              <Card className='overflow-hidden backdrop-blur-sm bg-white/80'>
+                <div className='p-6 sm:p-10'>
+                  <h2 className='text-2xl font-semibold mb-8 text-[#203F6C]'>
+                    Contact Information
+                  </h2>
+                  <div className='space-y-8'>
+                    {contactInfo.map((info, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className='flex items-start space-x-4'
+                      >
+                        <div className='w-12 h-12 rounded-xl bg-gradient-to-br from-[#203F6C] to-[#F4B714] p-0.5 flex-shrink-0'>
+                          <div className='w-full h-full rounded-xl bg-white flex items-center justify-center'>
+                            <info.icon className='w-6 h-6 text-[#203F6C]' />
+                          </div>
+                        </div>
+                        <div>
+                          <h3 className='font-medium text-[#203F6C]'>
+                            {info.title}
+                          </h3>
+                          {Array.isArray(info.details) ? (
+                            info.details.map((detail, idx) => (
+                              <p key={idx} className='text-gray-600'>
+                                {detail}
+                              </p>
+                            ))
+                          ) : (
+                            <p className='text-gray-600'>{info.details}</p>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </div>
+          <div className='mt-24'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className='text-3xl font-semibold text-center mb-8 text-[#203F6C]'>
+                Where to find us
+              </h2>
+              <Card className='overflow-hidden backdrop-blur-sm bg-white/80'>
+                <div className='p-6 sm:p-10'>
+                  <div className='w-full h-96 bg-gray-100 rounded-lg relative overflow-hidden'>
+                    <div className='absolute inset-0 bg-gray-200 animate-pulse'>
+                      <div className='absolute inset-0 flex items-center justify-center'>
+                        <MapPin className='w-12 h-12 text-[#203F6C]' />
+                      </div>
+                    </div>
+                    <div className='absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-lg'>
+                      <h3 className='font-medium text-[#203F6C]'>
+                        NND Services
+                      </h3>
+                      <p className='text-gray-600 text-sm'>
+                        24 Abberfield Crescent NE
+                      </p>
+                      <p className='text-gray-600 text-sm'>
+                        Calgary Alberta, T2A6N6
+                      </p>
                     </div>
                   </div>
-                  <div className='absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-lg'>
-                    <h3 className='font-medium text-[#203F6C]'>NND Services</h3>
-                    <p className='text-gray-600 text-sm'>
-                      24 Abberfield Crescent NE
-                    </p>
-                    <p className='text-gray-600 text-sm'>
-                      Calgary Alberta, T2A6N6
-                    </p>
-                  </div>
                 </div>
-              </div>
-            </Card>
-          </motion.div>
-        </div>
+              </Card>
+            </motion.div>
+          </div>
 
-        {/* Community Section Title */}
-        <div className='mt-24'>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className='text-3xl font-semibold text-center mb-8 text-[#203F6C]'>
-              Connect with us
-            </h2>
-          </motion.div>
-          <Community />
+          {/* Community Section Title */}
+          <div className='mt-24'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className='text-3xl font-semibold text-center mb-8 text-[#203F6C]'>
+                Connect with us
+              </h2>
+            </motion.div>
+            <Community />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
