@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import {
-  ArrowRight,
-  Play,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react'
+import { ArrowRight, Play, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import VideoModal from './VideoModal'
 import { useTranslation } from 'react-i18next'
@@ -46,13 +40,6 @@ const HeroSection = () => {
 
   const previousImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
-  }
-
-  const scrollToContent = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: 'smooth',
-    })
   }
 
   return (

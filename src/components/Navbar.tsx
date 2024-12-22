@@ -5,7 +5,6 @@ import {
   X,
   Globe,
   ChevronDown,
-  Home,
   Heart,
   Phone,
   Star,
