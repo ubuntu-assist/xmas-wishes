@@ -240,6 +240,7 @@ ${data.additionalNotes ? `\nAdditional Notes:\n${data.additionalNotes}` : ''}
       }
 
       const templateParams = {
+        title: 'Donation Message',
         from_name: data.name,
         from_email: data.email,
         subject: `New Donation Request from ${data.name}`,

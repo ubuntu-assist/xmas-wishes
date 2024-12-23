@@ -2,13 +2,113 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Truck, MapPin, Package, Clock } from 'lucide-react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { isValidPhoneNumber } from 'react-phone-number-input'
+import { PhoneInput } from '@/components/PhoneInput'
+
+import emailjs from '@emailjs/browser'
+import confetti from 'canvas-confetti'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+} from '@/components/ui/alert-dialog'
+
+interface Address {
+  street: string
+  city: string
+  province: string
+  postalCode: string
+}
+
+interface QuoteData {
+  name: string
+  phone: string
+  email: string
+  deliveryDate: string
+  deliveryTime: string
+  pickupAddress: Address
+  pickupAccessibility: 'Basement' | 'Main floor' | 'Upstairs'
+  deliveryAddress: Address
+  deliveryAccessibility: 'Basement' | 'Main floor' | 'Upstairs'
+  itemDescription: string
+  specialInstructions?: string
+}
+
+const SuccessDialog = ({ isOpen }: { isOpen: boolean }) => {
+  return (
+    <AlertDialog open={isOpen}>
+      <AlertDialogContent className='bg-white p-6 rounded-xl shadow-xl max-w-md mx-auto'>
+        <AlertDialogHeader>
+          <AlertDialogTitle className='text-2xl font-bold text-center text-blue-900'>
+            Quote Request Submitted!
+          </AlertDialogTitle>
+          <AlertDialogDescription className='text-center text-gray-600'>
+            Thank you for your request. Our team will review your details and
+            get back to you shortly.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
+const fireConfetti = () => {
+  // First burst
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 },
+    colors: ['#203F6C', '#F4B714', '#D7262F'],
+  })
+
+  // Cannon left
+  setTimeout(() => {
+    confetti({
+      particleCount: 50,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: ['#203F6C', '#F4B714'],
+    })
+  }, 200)
+
+  // Cannon right
+  setTimeout(() => {
+    confetti({
+      particleCount: 50,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: ['#F4B714', '#D7262F'],
+    })
+  }, 200)
+
+  // Final burst
+  setTimeout(() => {
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 },
+      colors: ['#203F6C', '#F4B714', '#D7262F'],
+      ticks: 200,
+    })
+  }, 500)
+}
 
 // Define the schema with proper typing
 const quoteSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
+  phone: z
+    .string()
+    .min(1, 'Phone number is required')
+    .refine((value) => value && isValidPhoneNumber(value), {
+      message: 'Invalid phone number',
+    }),
   email: z.string().email('Please enter a valid email address'),
   deliveryDate: z.string().refine((date) => {
     const selectedDate = new Date(date)
@@ -66,11 +166,55 @@ const accessibilityOptions: AccessibilityOption[] = [
 ]
 
 const DeliveryQuotePage: React.FC = () => {
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [error, setError] = useState('')
+
+  const formatEmailContent = (data: QuoteData) => {
+    return `
+      🚚 New Delivery Quote Request
+
+      📋 Contact Information
+      ---------------------
+      Name: ${data.name}
+      Phone: ${data.phone}
+      Email: ${data.email}
+
+      📅 Schedule
+      ---------------------
+      Delivery Date: ${data.deliveryDate}
+      Delivery Time: ${data.deliveryTime}
+
+      📍 Pickup Address
+      ---------------------
+      Street: ${data.pickupAddress.street}
+      City: ${data.pickupAddress.city}
+      Province: ${data.pickupAddress.province}
+      Postal Code: ${data.pickupAddress.postalCode}
+      Accessibility: ${data.pickupAccessibility}
+
+      🏠 Delivery Address
+      ---------------------
+      Street: ${data.deliveryAddress.street}
+      City: ${data.deliveryAddress.city}
+      Province: ${data.deliveryAddress.province}
+      Postal Code: ${data.deliveryAddress.postalCode}
+      Accessibility: ${data.deliveryAccessibility}
+
+      📦 Item Details
+      ---------------------
+      ${data.itemDescription}
+
+      📝 Special Instructions
+      ---------------------
+      ${data.specialInstructions ?? 'None provided'}
+    `
+  }
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<QuoteFormData>({
     resolver: zodResolver(quoteSchema),
@@ -99,15 +243,39 @@ const DeliveryQuotePage: React.FC = () => {
     },
   })
 
-  const onSubmit = async (data: QuoteFormData): Promise<void> => {
+  const onSubmit = async (data: QuoteData) => {
     setIsSubmitting(true)
+    setError('')
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulate API call
-      console.log('Form submitted:', data)
-      // Handle success
+      const emailContent = formatEmailContent(data)
+
+      // Replace these with your actual EmailJS credentials
+      await emailjs.send(
+        'service_z7gd4ts',
+        'template_j9fth11',
+        {
+          title: 'Quote Request Message',
+          to_name: 'NND Services',
+          from_name: data.name,
+          from_email: data.email,
+          subject: `New Quote Request from ${data.name}`,
+          message: emailContent,
+          reply_to: data.email,
+        },
+        '4s4GLJPhNfpF4AGml'
+      )
+
+      setShowSuccess(true)
+      fireConfetti()
+
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setShowSuccess(false)
+      }, 5000)
     } catch (error) {
-      console.error('Error:', error)
-      // Handle error
+      setError('Failed to send quote request. Please try again.')
+      console.error('EmailJS Error:', error)
     } finally {
       setIsSubmitting(false)
     }
@@ -182,6 +350,16 @@ const DeliveryQuotePage: React.FC = () => {
           </motion.div>
         </div>
       </div>
+
+      {error && (
+        <Alert variant='destructive' className='mb-6'>
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      <SuccessDialog isOpen={showSuccess} />
+
       <div className='max-w-4xl mx-auto px-4 py-16'>
         <motion.form
           initial={{ opacity: 0, y: 20 }}
@@ -212,13 +390,20 @@ const DeliveryQuotePage: React.FC = () => {
                 <ErrorMessage message={errors.name?.message} />
               </div>
               <div>
-                <label className='block text-sm font-medium text-gray-700'>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>
                   Phone
                 </label>
-                <input
-                  {...register('phone')}
-                  type='tel'
-                  className='mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500'
+                <Controller
+                  name='phone'
+                  control={control}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      id='phone'
+                      placeholder='Enter a phone number'
+                      className='w-full border rounded-lg py-0.5'
+                    />
+                  )}
                 />
                 <ErrorMessage message={errors.phone?.message} />
               </div>
