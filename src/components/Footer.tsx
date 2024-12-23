@@ -151,8 +151,19 @@ const Footer = () => {
           className='mt-8 sm:mt-16 pt-6 sm:pt-8 border-t border-[#F4B714]/20'
         >
           <div className='flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0'>
-            <div className='text-white text-sm sm:text-base text-center sm:text-left'>
-              © {new Date().getFullYear()} NND Services
+            <div className='flex flex-col space-y-2 text-center sm:text-left'>
+              <span className='text-white text-sm sm:text-base'>
+                © {new Date().getFullYear()} NND Services
+              </span>
+              <motion.a
+                href='https://ouete.com'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-xs sm:text-sm text-gray-400 hover:text-[#F4B714] transition-colors'
+                whileHover={{ x: 3 }}
+              >
+                Designed with ❤️ by Ouete & Compagni
+              </motion.a>
             </div>
             <div className='flex items-center space-x-3 sm:space-x-4'>
               {socialLinks.map(({ Icon, href, label }, index) => (
