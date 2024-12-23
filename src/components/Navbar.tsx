@@ -9,14 +9,16 @@ import {
   Phone,
   Star,
   Settings,
+  Home,
 } from 'lucide-react'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import logo from '@/assets/images/logo.png'
 import { useTranslation } from 'react-i18next'
 
 interface NavLink {
   title: string
   href: string
+  icon: React.ReactNode
 }
 
 interface Language {
@@ -115,34 +117,128 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   )
 }
 
-const Navbar: React.FC = () => {
-  const { i18n, t } = useTranslation(['common'])
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [isLangOpen, setIsLangOpen] = useState<boolean>(false)
-  const [isScrolled, setIsScrolled] = useState<boolean>(false)
+const NavLinks = ({ isMobile = false, onLinkClick = () => {} }) => {
+  const location = useLocation()
+  const { t } = useTranslation(['common'])
+  const [activeLink, setActiveLink] = useState('/')
 
-  const navLinks: (NavLink & { icon: React.ReactNode })[] = [
+  useEffect(() => {
+    setActiveLink(location.pathname)
+  }, [location])
+
+  const navLinks: NavLink[] = [
+    {
+      title: 'Home',
+      href: '/',
+      icon: <Home className='w-5 h-5' />,
+    },
     {
       title: 'Services',
       href: '/services',
-      icon: <Settings className='w-4 h-4' />,
+      icon: <Settings className='w-5 h-5' />,
     },
     {
       title: t('navbar.about'),
       href: '/about',
-      icon: <Star className='w-4 h-4' />,
+      icon: <Star className='w-5 h-5' />,
     },
     {
       title: t('navbar.donate'),
       href: '/donate',
-      icon: <Heart className='w-4 h-4' />,
+      icon: <Heart className='w-5 h-5' />,
     },
     {
       title: t('navbar.contact'),
       href: '/contact',
-      icon: <Phone className='w-4 h-4' />,
+      icon: <Phone className='w-5 h-5' />,
     },
   ]
+
+  const LinkComponent = ({ link, index }: { link: NavLink; index: number }) => {
+    const isActive = activeLink === link.href
+
+    return (
+      <Link
+        key={link.href}
+        to={link.href}
+        onClick={() => onLinkClick()}
+        className={`w-full ${isMobile ? 'block' : ''}`}
+      >
+        <motion.div
+          className={`relative group flex items-center gap-2 px-4 py-2 rounded-full
+            ${isMobile ? 'w-full' : ''}
+            ${isActive ? 'text-white' : 'text-gray-600 hover:text-[#203F6C]'}`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          initial={isMobile ? { opacity: 0, x: -20 } : { opacity: 0, y: -20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.1 }}
+        >
+          {isActive && (
+            <motion.div
+              layoutId={`activeBackground${isMobile ? 'Mobile' : ''}`}
+              className='absolute inset-0 bg-gradient-to-r from-[#203F6C] to-[#2C5495] rounded-full'
+              initial={false}
+              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            />
+          )}
+
+          <motion.div
+            className={`relative flex items-center gap-2 ${
+              isActive ? 'text-white' : 'group-hover:text-[#203F6C]'
+            }`}
+            animate={{ scale: isActive ? 1.05 : 1 }}
+          >
+            <motion.div
+              animate={{
+                rotate: isActive ? [0, 15, -15, 0] : 0,
+                scale: isActive ? [1, 1.2, 1] : 1,
+              }}
+              transition={{
+                duration: 0.5,
+                ease: 'easeInOut',
+                times: [0, 0.2, 0.5, 0.8],
+              }}
+            >
+              {link.icon}
+            </motion.div>
+            <span className='font-medium tracking-wide whitespace-nowrap'>
+              {link.title}
+            </span>
+          </motion.div>
+
+          {!isActive && (
+            <motion.div
+              className='absolute inset-0 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 -z-10'
+              initial={false}
+              transition={{ duration: 0.2 }}
+            />
+          )}
+        </motion.div>
+      </Link>
+    )
+  }
+
+  return (
+    <div
+      className={`${
+        isMobile
+          ? 'flex flex-col space-y-2'
+          : 'hidden md:flex items-center space-x-4'
+      }`}
+    >
+      {navLinks.map((link, index) => (
+        <LinkComponent key={link.href} link={link} index={index} />
+      ))}
+    </div>
+  )
+}
+
+const Navbar: React.FC = () => {
+  const { i18n } = useTranslation(['common'])
+  const [isOpen, setIsOpen] = useState(false)
+  const [isLangOpen, setIsLangOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   const languages: Languages = {
     en: {
@@ -206,49 +302,23 @@ const Navbar: React.FC = () => {
             className='flex-shrink-0'
           >
             <Link to='/' className='flex items-center'>
-              <img
-                src={logo}
-                alt='Move Together Logo'
-                className='h-14 sm:h-20'
-              />
+              <img src={logo} alt='Logo' className='h-14 sm:h-16 w-auto' />
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className='hidden md:flex md:items-center md:space-x-3 lg:space-x-6'>
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className='flex items-center space-x-3 lg:space-x-6'
-            >
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.title}
-                  className='text-sm lg:text-base text-[#203F6C] hover:text-[#F4B714] transition-colors duration-200'
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Link to={link.href} className='flex items-center gap-2'>
-                    {link.icon}
-                    <span>{link.title}</span>
-                  </Link>
-                </motion.div>
-              ))}
-              <div className='language-selector'>
-                <LanguageSelector
-                  isMobile={false}
-                  currentLang={i18n.language}
-                  setCurrentLang={changeLanguage}
-                  languages={languages}
-                  isLangOpen={isLangOpen}
-                  setIsLangOpen={setIsLangOpen}
-                />
-              </div>
-            </motion.div>
+          <div className='hidden md:flex md:items-center md:space-x-6'>
+            <NavLinks />
+            <div className='pl-6 border-l border-gray-200'>
+              <LanguageSelector
+                isMobile={false}
+                currentLang={i18n.language}
+                setCurrentLang={changeLanguage}
+                languages={languages}
+                isLangOpen={isLangOpen}
+                setIsLangOpen={setIsLangOpen}
+              />
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -285,22 +355,9 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.3 }}
             className='mobile-menu md:hidden'
           >
-            <div className='px-4 pt-2 pb-6 space-y-3 bg-white border-t border-gray-200'>
-              {navLinks.map((link, index) => (
-                <motion.a
-                  key={link.title}
-                  href={link.href}
-                  className='flex items-center gap-3 text-[#203F6C] hover:text-[#F4B714] transition-colors duration-200 py-2 text-sm'
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.icon}
-                  <span>{link.title}</span>
-                </motion.a>
-              ))}
-              <div className='py-2'>
+            <div className='px-4 pt-2 pb-6 space-y-4 bg-white border-t border-gray-200'>
+              <NavLinks isMobile={true} onLinkClick={() => setIsOpen(false)} />
+              <div className='pt-2'>
                 <LanguageSelector
                   isMobile={true}
                   currentLang={i18n.language}

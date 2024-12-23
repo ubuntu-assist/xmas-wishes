@@ -4,6 +4,14 @@ import { ArrowRight, Play, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import VideoModal from './VideoModal'
 import { useTranslation } from 'react-i18next'
+import slide1 from '@/assets/images/slide1.png'
+import slide2 from '@/assets/images/slide2.png'
+import slide3 from '@/assets/images/slide3.png'
+import slide4 from '@/assets/images/slide4.png'
+import slide5 from '@/assets/images/slide5.png'
+import slide6 from '@/assets/images/slide6.png'
+import slide7 from '@/assets/images/slide7.png'
+import slide8 from '@/assets/images/slide8.png'
 
 const HeroSection = () => {
   const { t } = useTranslation(['home'])
@@ -13,16 +21,36 @@ const HeroSection = () => {
 
   const images = [
     {
-      url: 'https://movingsolutionsus.com/wp-content/uploads/2021/06/header-image-home.jpg',
+      url: slide1,
       alt: 'Professional Moving Services',
     },
     {
-      url: 'https://www.homeadvisor.com/r/wp-content/uploads/2018/06/movers_at_van.jpeg',
+      url: slide2,
       alt: 'Careful Packing Services',
     },
     {
-      url: 'https://www.assureshift.in/sites/default/files/images/blog/additional-services-by-moving-companies.jpg',
+      url: slide3,
       alt: 'Local Moving Experts',
+    },
+    {
+      url: slide4,
+      alt: 'Professional Moving Services',
+    },
+    {
+      url: slide5,
+      alt: 'Careful Packing Services',
+    },
+    {
+      url: slide6,
+      alt: 'Local Moving Experts',
+    },
+    {
+      url: slide7,
+      alt: 'Professional Moving Services',
+    },
+    {
+      url: slide8,
+      alt: 'Careful Packing Services',
     },
   ]
 
