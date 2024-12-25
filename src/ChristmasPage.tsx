@@ -257,7 +257,7 @@ const ChristmasPage: React.FC = () => {
 
         <div className='text-center mt-12 space-y-8'>
           <a
-            href='https://github.com/yourusername/christmas-tree'
+            href='https://github.com/ubuntu-assist/xmas-wishes'
             target='_blank'
             rel='noopener noreferrer'
             className='inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full transition-all duration-300 backdrop-blur-sm'
