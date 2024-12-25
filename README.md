@@ -4,7 +4,7 @@ A festive web animation created with React and TypeScript to spread holiday chee
 
 ## ✨ Live Demo
 
-Visit the live site: [Christmas Wishes Animation](https://xmas-wishes.vercel.app)
+Visit the live site: [Christmas Wishes Animation](https://xmas-wishes-teal.vercel.app)
 
 ## 🎅 Challenge Overview
 
