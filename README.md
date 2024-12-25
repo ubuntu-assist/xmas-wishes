@@ -4,7 +4,7 @@ A festive web animation created with React and TypeScript to spread holiday chee
 
 ## ✨ Live Demo
 
-Visit the live site: [Christmas Wishes Animation](https://christmas-wishes.vercel.app)
+Visit the live site: [Christmas Wishes Animation](https://xmas-wishes.vercel.app)
 
 ## 🎅 Challenge Overview
 
@@ -33,8 +33,8 @@ This project was created for the Special Christmas Challenge 2024, which require
 ## 💻 Quick Start
 
 ```bash
-git clone https://github.com/ubuntu-assist/christmas-wishes
-cd christmas-wishes
+git clone https://github.com/ubuntu-assist/xmas-wishes
+cd xmas-wishes
 npm install
 npm run dev
 ```
